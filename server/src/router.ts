@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { router, publicProcedure } from './trpc.js'
+import { authRouter } from './modules/auth/router.js'
 
 /**
  * Main tRPC router
@@ -34,6 +35,9 @@ export const appRouter = router({
         createdAt: new Date().toISOString(),
       }
     }),
+
+  // Auth routes
+  auth: authRouter,
 })
 
 // Export type router type signature,

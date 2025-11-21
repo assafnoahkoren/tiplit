@@ -1,5 +1,5 @@
 import { hash, verify } from '@node-rs/argon2'
-import { prisma } from '../lib/prisma.js'
+import { prisma } from '../../lib/prisma.js'
 import { lucia } from './lucia.js'
 
 /**
