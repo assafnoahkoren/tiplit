@@ -49,7 +49,10 @@ export function ThemeProvider({
     }
 
     root.classList.add(resolvedTheme)
-    setActualTheme(resolvedTheme)
+
+    // Only update if theme actually changed
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActualTheme(current => current === resolvedTheme ? current : resolvedTheme)
   }, [theme])
 
   useEffect(() => {
@@ -80,6 +83,7 @@ export function ThemeProvider({
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const context = useContext(ThemeContext)
   if (context === undefined) {

@@ -10,6 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky"
   },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
