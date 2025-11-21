@@ -32,16 +32,10 @@ export function clearSession(): void {
 }
 
 /**
- * Check if user is currently authenticated
+ * Check if user has a session in localStorage
+ * Note: This only checks local storage, not if the session is valid on backend.
+ * Use the ProtectedRoute component or trpc.auth.me query for actual verification.
  */
-export async function checkAuth(): Promise<boolean> {
-  const sessionId = getSessionId()
-  return sessionId !== null
-}
-
-/**
- * Check if user is currently authenticated (synchronous)
- */
-export function isAuthenticated(): boolean {
+export function hasLocalSession(): boolean {
   return getSessionId() !== null
 }
