@@ -1,14 +1,27 @@
 import { initTRPC } from '@trpc/server'
+import type { User } from '@prisma/client'
+import type { Request } from 'express'
 
 /**
- * Initialization of tRPC backend
- * Should be done only once per backend!
+ * Context type that will be available in all procedures
  */
-const t = initTRPC.create()
+export type Context = {
+  req?: Request
+  user?: Omit<User, 'passwordHash'>
+  session?: {
+    id: string
+    userId: string
+    expiresAt: Date
+  }
+}
+
+/**
+ * Initialization of tRPC backend with context
+ */
+const t = initTRPC.context<Context>().create()
 
 /**
  * Export reusable router and procedure helpers
- * that can be used throughout the router
  */
 export const router = t.router
 export const publicProcedure = t.procedure

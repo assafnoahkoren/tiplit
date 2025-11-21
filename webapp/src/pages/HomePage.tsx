@@ -1,15 +1,44 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 import { trpc } from '@/lib/trpc'
+import { clearSession, getSessionId } from '@/lib/auth'
 
 export function HomePage() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const sessionId = getSessionId()
 
   // Example tRPC queries
   const healthQuery = trpc.health.useQuery()
   const greetingQuery = trpc.greeting.useQuery({ name: 'World' })
+
+  // Get current user data - sessionId is automatically sent in headers!
+  const userQuery = trpc.auth.me.useQuery()
+
+  const logoutMutation = trpc.auth.logout.useMutation({
+    onSuccess: () => {
+      clearSession()
+      navigate('/login')
+    },
+    onError: (error) => {
+      console.error('Logout error:', error)
+      // Clear session anyway on error
+      clearSession()
+      navigate('/login')
+    },
+  })
+
+  const handleLogout = () => {
+    if (sessionId) {
+      logoutMutation.mutate({ sessionId })
+    } else {
+      clearSession()
+      navigate('/login')
+    }
+  }
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -46,12 +75,49 @@ export function HomePage() {
             </div>
           </div>
 
+          {/* User Info */}
+          {userQuery.data && (
+            <div className="border rounded-lg p-4 space-y-2 bg-muted/50">
+              <h3 className="font-semibold">Current User:</h3>
+              <div className="text-sm space-y-1">
+                {userQuery.data.name && (
+                  <div>
+                    <span className="font-medium">Name: </span>
+                    <span>{userQuery.data.name}</span>
+                  </div>
+                )}
+                <div>
+                  <span className="font-medium">Email: </span>
+                  <span>{userQuery.data.email}</span>
+                </div>
+                <div>
+                  <span className="font-medium">User ID: </span>
+                  <span className="font-mono text-xs">{userQuery.data.id}</span>
+                </div>
+                <div>
+                  <span className="font-medium">Member Since: </span>
+                  <span>{new Date(userQuery.data.createdAt).toLocaleDateString()}</span>
+                </div>
+              </div>
+            </div>
+          )}
+          {userQuery.isLoading && (
+            <div className="text-sm text-muted-foreground">Loading user data...</div>
+          )}
+          {userQuery.error && (
+            <div className="text-sm text-destructive">Failed to load user data</div>
+          )}
+
           <div className="flex gap-4">
             <Button asChild>
               <Link to="/about">About</Link>
             </Button>
-            <Button asChild variant="outline">
-              <Link to="/login">Login</Link>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              disabled={logoutMutation.isPending}
+            >
+              {logoutMutation.isPending ? 'Logging out...' : 'Logout'}
             </Button>
           </div>
         </CardContent>

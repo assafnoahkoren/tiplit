@@ -75,3 +75,34 @@ export async function loginWithEmail(email: string, password: string) {
 export async function logout(sessionId: string) {
   await lucia.invalidateSession(sessionId)
 }
+
+/**
+ * Get current user from session
+ */
+export async function getCurrentUser(sessionId: string) {
+  // Validate session and get user
+  const { session, user } = await lucia.validateSession(sessionId)
+
+  if (!session || !user) {
+    throw new Error('Invalid or expired session')
+  }
+
+  // Fetch full user data from database (excluding password hash)
+  const fullUser = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: {
+      id: true,
+      email: true,
+      phone: true,
+      name: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  })
+
+  if (!fullUser) {
+    throw new Error('User not found')
+  }
+
+  return fullUser
+}

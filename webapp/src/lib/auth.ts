@@ -1,18 +1,47 @@
+const SESSION_KEY = 'sessionId'
+const USER_KEY = 'userId'
+
 /**
- * Fake authentication check function
- * Simulates an async auth check by waiting 200ms
- * @returns Promise that resolves to true (authenticated)
+ * Store session data in localStorage
  */
-export async function checkAuth(): Promise<boolean> {
-  await new Promise(resolve => setTimeout(resolve, 200))
-  return true
+export function setSession(userId: string, sessionId: string): void {
+  localStorage.setItem(USER_KEY, userId)
+  localStorage.setItem(SESSION_KEY, sessionId)
+}
+
+/**
+ * Get session ID from localStorage
+ */
+export function getSessionId(): string | null {
+  return localStorage.getItem(SESSION_KEY)
+}
+
+/**
+ * Get user ID from localStorage
+ */
+export function getUserId(): string | null {
+  return localStorage.getItem(USER_KEY)
+}
+
+/**
+ * Clear session data from localStorage
+ */
+export function clearSession(): void {
+  localStorage.removeItem(USER_KEY)
+  localStorage.removeItem(SESSION_KEY)
 }
 
 /**
  * Check if user is currently authenticated
- * For now, always returns true after a delay
+ */
+export async function checkAuth(): Promise<boolean> {
+  const sessionId = getSessionId()
+  return sessionId !== null
+}
+
+/**
+ * Check if user is currently authenticated (synchronous)
  */
 export function isAuthenticated(): boolean {
-  // In a real app, this would check localStorage, cookies, or auth state
-  return true
+  return getSessionId() !== null
 }

@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { router, publicProcedure } from '../../trpc.js'
+import { protectedProcedure } from '../../middleware/auth.js'
 import { registerWithEmail, loginWithEmail, logout } from './service.js'
 
 export const authRouter = router({
@@ -44,4 +45,16 @@ export const authRouter = router({
       await logout(input.sessionId)
       return { success: true }
     }),
+
+  me: protectedProcedure.query(({ ctx }) => {
+    // User is automatically validated and available in context!
+    return {
+      id: ctx.user!.id,
+      email: ctx.user!.email,
+      phone: ctx.user!.phone,
+      name: ctx.user!.name,
+      createdAt: ctx.user!.createdAt,
+      updatedAt: ctx.user!.updatedAt,
+    }
+  }),
 })
