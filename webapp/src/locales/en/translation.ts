@@ -7,11 +7,7 @@ export const enTranslation = {
   form_passwordPlaceholder: "Enter your password",
   form_cancel: "Cancel",
   form_submit: "Submit",
-} as const
-
-type Stringify<T> = {
-  [K in keyof T]: string
 }
 
-export type Translation = Stringify<typeof enTranslation>
+export type Translation = typeof enTranslation
 export type TranslationKeys = keyof Translation
