@@ -51,7 +51,6 @@ export function ThemeProvider({
     root.classList.add(resolvedTheme)
 
     // Only update if theme actually changed
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActualTheme(current => current === resolvedTheme ? current : resolvedTheme)
   }, [theme])
 
