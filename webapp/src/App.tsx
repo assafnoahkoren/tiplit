@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { LanguageChangeButton } from '@/components/LanguageChangeButton'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 function App() {
   const { t } = useTranslation()
@@ -19,7 +20,10 @@ function App() {
                 {t('app_description')}
               </CardDescription>
             </div>
-            <LanguageChangeButton />
+            <div className="flex gap-2">
+              <ThemeToggle />
+              <LanguageChangeButton />
+            </div>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
