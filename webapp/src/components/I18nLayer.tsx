@@ -8,18 +8,21 @@ interface I18nLayerProps {
 }
 
 export function I18nLayer({ children }: I18nLayerProps) {
-  const [isReady, setIsReady] = useState(false)
+  const [isReady, setIsReady] = useState(i18n.isInitialized)
 
   useEffect(() => {
-    i18n.on('initialized', () => {
-      setIsReady(true);
-    })
+    if (isReady) return
 
-    // If already initialized
-    if (i18n.isInitialized) {
+    const handleInitialized = () => {
       setIsReady(true)
     }
-  }, [])
+
+    i18n.on('initialized', handleInitialized)
+
+    return () => {
+      i18n.off('initialized', handleInitialized)
+    }
+  }, [isReady])
 
   if (!isReady) {
     return (
