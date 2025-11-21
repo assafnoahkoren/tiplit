@@ -10,4 +10,4 @@ export const enTranslation = {
 }
 
 export type Translation = typeof enTranslation
-export type TranslationKeys = keyof Translation
+export type TranslationKey = keyof Translation
