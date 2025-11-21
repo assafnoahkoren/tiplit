@@ -19,11 +19,13 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@lucia-auth/adapter-prisma": "^4.0.1",
     "@prisma/client": "^7.0.0",
     "@trpc/server": "^11.7.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "lucia": "^3.2.2",
     "prisma": "^7.0.0",
     "zod": "^4.1.12"
   },
