@@ -1,5 +1,5 @@
 import './App.css'
-import { RouterLayer } from '@/components/RouterLayer'
+import { RouterLayer } from '@/routing/RouterLayer'
 
 function App() {
   return <RouterLayer />
