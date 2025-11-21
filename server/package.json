@@ -20,6 +20,7 @@
   "description": "",
   "dependencies": {
     "@lucia-auth/adapter-prisma": "^4.0.1",
+    "@node-rs/argon2": "^2.0.2",
     "@prisma/client": "^7.0.0",
     "@trpc/server": "^11.7.1",
     "cors": "^2.8.5",
