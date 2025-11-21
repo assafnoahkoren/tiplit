@@ -4,7 +4,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "webapp"
+    "webapp",
+    "server"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
