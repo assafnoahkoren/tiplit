@@ -1,7 +1,14 @@
 import { z } from 'zod'
 import { router, publicProcedure } from '../../trpc.js'
 import { protectedProcedure } from '../../middleware/auth.js'
-import { registerWithEmail, loginWithEmail, logout } from './service.js'
+import {
+  registerWithEmail,
+  loginWithEmail,
+  logout,
+  requestPhoneOtp,
+  registerWithPhone,
+  loginWithPhone,
+} from './service.js'
 
 export const authRouter = router({
   register: publicProcedure
@@ -57,4 +64,50 @@ export const authRouter = router({
       updatedAt: ctx.user!.updatedAt,
     }
   }),
+
+  // Phone authentication endpoints
+  requestPhoneOtp: publicProcedure
+    .input(
+      z.object({
+        phoneNumber: z.string().regex(/^\+[1-9]\d{1,14}$/, 'Phone number must be in E.164 format (e.g., +1234567890)'),
+      })
+    )
+    .mutation(async ({ input }) => {
+      return await requestPhoneOtp(input.phoneNumber)
+    }),
+
+  registerWithPhone: publicProcedure
+    .input(
+      z.object({
+        phoneNumber: z.string().regex(/^\+[1-9]\d{1,14}$/, 'Phone number must be in E.164 format'),
+        code: z.string().length(6, 'OTP code must be 6 digits'),
+        name: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { user, session } = await registerWithPhone(
+        input.phoneNumber,
+        input.code,
+        input.name
+      )
+      return {
+        userId: user.id,
+        sessionId: session.id,
+      }
+    }),
+
+  loginWithPhone: publicProcedure
+    .input(
+      z.object({
+        phoneNumber: z.string().regex(/^\+[1-9]\d{1,14}$/, 'Phone number must be in E.164 format'),
+        code: z.string().length(6, 'OTP code must be 6 digits'),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { user, session } = await loginWithPhone(input.phoneNumber, input.code)
+      return {
+        userId: user.id,
+        sessionId: session.id,
+      }
+    }),
 })

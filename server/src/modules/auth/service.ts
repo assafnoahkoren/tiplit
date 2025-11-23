@@ -1,6 +1,7 @@
 import { hash, verify } from '@node-rs/argon2'
 import { prisma } from '../../lib/prisma.js'
 import { lucia } from './lucia.js'
+import { sendOtp, verifyOtp } from './otpService.js'
 
 /**
  * Register a new user with email and password
@@ -105,4 +106,70 @@ export async function getCurrentUser(sessionId: string) {
   }
 
   return fullUser
+}
+
+/**
+ * Request OTP for phone number (for registration or login)
+ */
+export async function requestPhoneOtp(phoneNumber: string) {
+  await sendOtp(phoneNumber)
+  return { success: true }
+}
+
+/**
+ * Verify OTP and register new user with phone number
+ */
+export async function registerWithPhone(phoneNumber: string, code: string, name?: string) {
+  // Verify OTP
+  const isValid = await verifyOtp(phoneNumber, code)
+  if (!isValid) {
+    throw new Error('Invalid or expired OTP code')
+  }
+
+  // Check if phone number already exists
+  const existingUser = await prisma.user.findUnique({
+    where: { phone: phoneNumber },
+  })
+
+  if (existingUser) {
+    throw new Error('Phone number already in use')
+  }
+
+  // Create user
+  const user = await prisma.user.create({
+    data: {
+      phone: phoneNumber,
+      name,
+    },
+  })
+
+  // Create session
+  const session = await lucia.createSession(user.id, {})
+
+  return { user, session }
+}
+
+/**
+ * Verify OTP and login with phone number
+ */
+export async function loginWithPhone(phoneNumber: string, code: string) {
+  // Verify OTP
+  const isValid = await verifyOtp(phoneNumber, code)
+  if (!isValid) {
+    throw new Error('Invalid or expired OTP code')
+  }
+
+  // Find user by phone number
+  const user = await prisma.user.findUnique({
+    where: { phone: phoneNumber },
+  })
+
+  if (!user) {
+    throw new Error('No account found with this phone number')
+  }
+
+  // Create session
+  const session = await lucia.createSession(user.id, {})
+
+  return { user, session }
 }
