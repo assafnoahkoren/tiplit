@@ -151,6 +151,7 @@ export async function registerWithPhone(phoneNumber: string, code: string, name?
 
 /**
  * Verify OTP and login with phone number
+ * Auto-creates user if they don't exist (passwordless auth pattern)
  */
 export async function loginWithPhone(phoneNumber: string, code: string) {
   // Verify OTP
@@ -159,13 +160,18 @@ export async function loginWithPhone(phoneNumber: string, code: string) {
     throw new Error('Invalid or expired OTP code')
   }
 
-  // Find user by phone number
-  const user = await prisma.user.findUnique({
+  // Find or create user by phone number
+  let user = await prisma.user.findUnique({
     where: { phone: phoneNumber },
   })
 
   if (!user) {
-    throw new Error('No account found with this phone number')
+    // Auto-create user on first login (passwordless auth)
+    user = await prisma.user.create({
+      data: {
+        phone: phoneNumber,
+      },
+    })
   }
 
   // Create session

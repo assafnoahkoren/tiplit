@@ -122,11 +122,19 @@ export function RegisterPage() {
                 {registerMutation.isPending ? 'Creating...' : 'Create Account'}
               </Button>
             </div>
-            <div className="text-sm text-center text-muted-foreground">
-              Already have an account?{' '}
-              <Link to="/login" className="text-primary hover:underline">
-                Login
-              </Link>
+            <div className="text-sm text-center text-muted-foreground space-y-1">
+              <div>
+                Already have an account?{' '}
+                <Link to="/login" className="text-primary hover:underline">
+                  Login
+                </Link>
+              </div>
+              <div>
+                Or{' '}
+                <Link to="/phone-register" className="text-primary hover:underline">
+                  Register with phone
+                </Link>
+              </div>
             </div>
           </CardFooter>
         </form>

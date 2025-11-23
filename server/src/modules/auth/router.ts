@@ -9,6 +9,7 @@ import {
   registerWithPhone,
   loginWithPhone,
 } from './service.js'
+import { OTP_LENGTH } from './otpService.js'
 
 export const authRouter = router({
   register: publicProcedure
@@ -80,7 +81,7 @@ export const authRouter = router({
     .input(
       z.object({
         phoneNumber: z.string().regex(/^\+[1-9]\d{1,14}$/, 'Phone number must be in E.164 format'),
-        code: z.string().length(6, 'OTP code must be 6 digits'),
+        code: z.string().length(OTP_LENGTH, `OTP code must be ${OTP_LENGTH} digits`),
         name: z.string().optional(),
       })
     )
@@ -100,7 +101,7 @@ export const authRouter = router({
     .input(
       z.object({
         phoneNumber: z.string().regex(/^\+[1-9]\d{1,14}$/, 'Phone number must be in E.164 format'),
-        code: z.string().length(6, 'OTP code must be 6 digits'),
+        code: z.string().length(OTP_LENGTH, `OTP code must be ${OTP_LENGTH} digits`),
       })
     )
     .mutation(async ({ input }) => {

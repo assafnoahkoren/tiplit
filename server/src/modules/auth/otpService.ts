@@ -1,7 +1,7 @@
 import { prisma } from '../../lib/prisma.js'
 import { smsService } from '../../services/sms/index.js'
 
-const OTP_LENGTH = 4
+export const OTP_LENGTH = 4
 const OTP_EXPIRY_MINUTES = 10
 const MAX_ATTEMPTS = 5
 

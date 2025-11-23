@@ -87,11 +87,19 @@ export function LoginPage() {
                 {loginMutation.isPending ? 'Logging in...' : t('form_submit')}
               </Button>
             </div>
-            <div className="text-sm text-center text-muted-foreground">
-              Don't have an account?{' '}
-              <Link to="/register" className="text-primary hover:underline">
-                Register
-              </Link>
+            <div className="text-sm text-center text-muted-foreground space-y-1">
+              <div>
+                Don't have an account?{' '}
+                <Link to="/register" className="text-primary hover:underline">
+                  Register
+                </Link>
+              </div>
+              <div>
+                Or{' '}
+                <Link to="/phone-login" className="text-primary hover:underline">
+                  Login with phone
+                </Link>
+              </div>
             </div>
           </CardFooter>
         </form>
