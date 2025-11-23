@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -7,6 +8,7 @@ import { trpc } from '@/lib/trpc'
 import { setSession } from '@/lib/auth'
 
 export function PhoneLoginPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [step, setStep] = useState<'phone' | 'otp'>('phone')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -54,11 +56,11 @@ export function PhoneLoginPage() {
     <div className="flex flex-1 items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Login with Phone</CardTitle>
+          <CardTitle className="text-2xl">{t('phoneLogin_title')}</CardTitle>
           <CardDescription>
             {step === 'phone'
-              ? 'Enter your phone number to receive a verification code'
-              : 'Enter the 4-digit code sent to your phone'}
+              ? t('phoneLogin_descriptionPhone')
+              : t('phoneLogin_descriptionOtp')}
           </CardDescription>
         </CardHeader>
 
@@ -72,18 +74,18 @@ export function PhoneLoginPage() {
               )}
               <div className="space-y-2">
                 <label htmlFor="phone" className="text-sm font-medium">
-                  Phone Number
+                  {t('auth_phone')}
                 </label>
                 <Input
                   id="phone"
                   type="tel"
-                  placeholder="+1234567890"
+                  placeholder={t('auth_phonePlaceholder')}
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   required
                 />
                 <p className="text-xs text-muted-foreground">
-                  Include country code (e.g., +1 for US)
+                  {t('auth_phoneFormat')}
                 </p>
               </div>
             </CardContent>
@@ -93,16 +95,16 @@ export function PhoneLoginPage() {
                 type="submit"
                 disabled={requestOtpMutation.isPending}
               >
-                {requestOtpMutation.isPending ? 'Sending...' : 'Send Verification Code'}
+                {requestOtpMutation.isPending ? t('phoneLogin_sending') : t('phoneLogin_requestCode')}
               </Button>
               <div className="text-sm text-center text-muted-foreground">
-                Don't have an account?{' '}
+                {t('phoneLogin_noAccount')}{' '}
                 <Link to="/phone-register" className="text-primary hover:underline">
-                  Register with phone
+                  {t('phoneLogin_registerPhoneLink')}
                 </Link>
-                {' or '}
+                {' '}{t('phoneLogin_or')}{' '}
                 <Link to="/register" className="text-primary hover:underline">
-                  Register with email
+                  {t('phoneLogin_registerEmailLink')}
                 </Link>
               </div>
             </CardFooter>
@@ -117,25 +119,25 @@ export function PhoneLoginPage() {
               )}
               <div className="space-y-2">
                 <div className="text-sm text-muted-foreground">
-                  Code sent to: <span className="font-medium text-foreground">{phoneNumber}</span>
+                  {t('phoneLogin_codeSentTo')} <span className="font-medium text-foreground">{phoneNumber}</span>
                   {' '}
                   <button
                     type="button"
                     onClick={() => setStep('phone')}
                     className="text-primary hover:underline"
                   >
-                    Change
+                    {t('phoneLogin_change')}
                   </button>
                 </div>
               </div>
               <div className="space-y-2">
                 <label htmlFor="code" className="text-sm font-medium">
-                  Verification Code
+                  {t('auth_otp')}
                 </label>
                 <Input
                   id="code"
                   type="text"
-                  placeholder="1234"
+                  placeholder={t('auth_otpPlaceholder')}
                   value={code}
                   onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
                   required
@@ -150,7 +152,7 @@ export function PhoneLoginPage() {
                 type="submit"
                 disabled={loginMutation.isPending || code.length !== 4}
               >
-                {loginMutation.isPending ? 'Verifying...' : 'Login'}
+                {loginMutation.isPending ? t('phoneLogin_verifying') : t('phoneLogin_verify')}
               </Button>
               <Button
                 variant="ghost"
@@ -159,7 +161,7 @@ export function PhoneLoginPage() {
                 disabled={requestOtpMutation.isPending}
                 className="w-full"
               >
-                {requestOtpMutation.isPending ? 'Sending...' : 'Resend Code'}
+                {requestOtpMutation.isPending ? t('phoneLogin_sending') : t('phoneLogin_resend')}
               </Button>
             </CardFooter>
           </form>
