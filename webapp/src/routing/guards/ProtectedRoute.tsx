@@ -16,10 +16,16 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   // Verify session with backend using the me query
-  const { data: user, isLoading, error } = trpc.auth.me.useQuery()
+  const { data: user, isLoading: isLoadingAuth, error } = trpc.auth.me.useQuery()
+
+  // Check onboarding status
+  const { data: onboarding, isLoading: isLoadingOnboarding } = trpc.onboarding.getNeededSlides.useQuery(
+    undefined,
+    { enabled: !!user } // Only run this query if user is authenticated
+  )
 
   // Loading state while verifying authentication with backend
-  if (isLoading) {
+  if (isLoadingAuth || isLoadingOnboarding) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
@@ -36,6 +42,11 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     return <Navigate to="/login" replace />
   }
 
-  // Render protected content if authenticated
+  // If onboarding is not complete, redirect to onboarding
+  if (onboarding && !onboarding.isOnboardingComplete) {
+    return <Navigate to="/onboarding" replace />
+  }
+
+  // Render protected content if authenticated and onboarding is complete
   return <>{children}</>
 }
