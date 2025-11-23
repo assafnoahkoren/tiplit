@@ -85,3 +85,8 @@
     line-height: 1.5;
   }
 }
+
+/* Phone Input Customization */
+.PhoneInputInput {
+  background: transparent !important;
+}

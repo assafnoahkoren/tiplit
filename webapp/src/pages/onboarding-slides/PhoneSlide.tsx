@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { trpc } from '@/lib/trpc'
+import { PhoneInputWrapper } from '@/components/PhoneInputWrapper'
 
 interface PhoneSlideProps {
   onComplete: () => void
@@ -14,7 +15,6 @@ export interface SlideRef {
 
 export const PhoneSlide = forwardRef<SlideRef, PhoneSlideProps>(({ onComplete }, ref) => {
   const { t } = useTranslation()
-  const phoneRef = useRef<HTMLInputElement>(null)
   const otpRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
   const [showOtpInput, setShowOtpInput] = useState(false)
@@ -24,9 +24,6 @@ export const PhoneSlide = forwardRef<SlideRef, PhoneSlideProps>(({ onComplete },
     onSuccess: () => {
       setShowOtpInput(true)
       setError('')
-      if (phoneRef.current) {
-        setPhoneNumber(phoneRef.current.value)
-      }
     },
     onError: (error) => setError(error.message),
   })
@@ -43,8 +40,8 @@ export const PhoneSlide = forwardRef<SlideRef, PhoneSlideProps>(({ onComplete },
   useImperativeHandle(ref, () => ({
     submit: () => {
       setError('')
-      if (!showOtpInput && phoneRef.current) {
-        requestOtpMutation.mutate({ phoneNumber: phoneRef.current.value })
+      if (!showOtpInput && phoneNumber) {
+        requestOtpMutation.mutate({ phoneNumber })
       } else if (showOtpInput && otpRef.current) {
         addPhoneMutation.mutate({ phoneNumber, code: otpRef.current.value })
       }
@@ -70,12 +67,10 @@ export const PhoneSlide = forwardRef<SlideRef, PhoneSlideProps>(({ onComplete },
             <label htmlFor="phone" className="text-sm font-medium">
               {t('onboarding_phone_label')}
             </label>
-            <Input
-              ref={phoneRef}
+            <PhoneInputWrapper
               id="phone"
-              type="tel"
-              placeholder={t('auth_phonePlaceholder')}
-              required
+              value={phoneNumber}
+              onChange={(value) => setPhoneNumber(value || '')}
               disabled={isLoading}
             />
             <p className="text-xs text-muted-foreground">

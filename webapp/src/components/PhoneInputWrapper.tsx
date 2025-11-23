@@ -1,0 +1,31 @@
+import { useState, useEffect } from 'react'
+import PhoneInput, { type Country, type Props as PhoneInputProps } from 'react-phone-number-input'
+import { getDefaultCountry } from '@/lib/utils'
+import 'react-phone-number-input/style.css'
+
+type PhoneInputWrapperProps = Omit<PhoneInputProps<typeof PhoneInput>, 'defaultCountry'> & {
+  defaultCountry?: Country
+  id?: string
+}
+
+export function PhoneInputWrapper({ defaultCountry: propDefaultCountry, id, ...props }: PhoneInputWrapperProps) {
+  const [defaultCountry, setDefaultCountry] = useState<Country>(propDefaultCountry || 'US')
+
+  useEffect(() => {
+    // Only fetch if no default country was provided via props
+    if (!propDefaultCountry) {
+      getDefaultCountry().then(setDefaultCountry)
+    }
+  }, [propDefaultCountry])
+
+  return (
+    <div id={id} dir="ltr">
+      <PhoneInput
+        international
+        defaultCountry={defaultCountry}
+        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+        {...props}
+      />
+    </div>
+  )
+}

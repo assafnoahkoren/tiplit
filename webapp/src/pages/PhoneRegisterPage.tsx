@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from '@/components/ui/input'
 import { trpc } from '@/lib/trpc'
 import { setSession } from '@/lib/auth'
+import { PhoneInputWrapper } from '@/components/PhoneInputWrapper'
 
 export function PhoneRegisterPage() {
   const navigate = useNavigate()
@@ -87,13 +88,10 @@ export function PhoneRegisterPage() {
                 <label htmlFor="phone" className="text-sm font-medium">
                   Phone Number
                 </label>
-                <Input
+                <PhoneInputWrapper
                   id="phone"
-                  type="tel"
-                  placeholder="+1234567890"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  required
+                  onChange={(value) => setPhoneNumber(value || '')}
                 />
                 <p className="text-xs text-muted-foreground">
                   Include country code (e.g., +1 for US)

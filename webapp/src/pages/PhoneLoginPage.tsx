@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from '@/components/ui/input'
 import { trpc } from '@/lib/trpc'
 import { setSession } from '@/lib/auth'
+import { PhoneInputWrapper } from '@/components/PhoneInputWrapper'
 
 export function PhoneLoginPage() {
   const { t } = useTranslation()
@@ -76,13 +77,10 @@ export function PhoneLoginPage() {
                 <label htmlFor="phone" className="text-sm font-medium">
                   {t('auth_phone')}
                 </label>
-                <Input
+                <PhoneInputWrapper
                   id="phone"
-                  type="tel"
-                  placeholder={t('auth_phonePlaceholder')}
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  required
+                  onChange={(value) => setPhoneNumber(value || '')}
                 />
                 <p className="text-xs text-muted-foreground">
                   {t('auth_phoneFormat')}
