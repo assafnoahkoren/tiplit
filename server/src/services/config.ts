@@ -9,9 +9,9 @@ const configSchema = z.object({
   // Server Configuration
   port: z
     .string()
+    .default('3001')
     .transform((val) => parseInt(val, 10))
-    .pipe(z.number().positive())
-    .default('3001'),
+    .pipe(z.number().positive()),
 
   nodeEnv: z
     .enum(['development', 'production', 'test'])
@@ -19,7 +19,6 @@ const configSchema = z.object({
 
   // Client Configuration
   clientUrl: z
-    .string()
     .url()
     .default('http://localhost:5173'),
 
@@ -51,7 +50,7 @@ function loadConfig() {
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.error('❌ Invalid environment variables:')
-      console.error(JSON.stringify(error.errors, null, 2))
+      console.error(JSON.stringify(error.issues, null, 2))
       throw new Error('Invalid environment configuration')
     }
     throw error
