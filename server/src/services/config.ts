@@ -1,8 +1,4 @@
 import { z } from 'zod'
-import dotenv from 'dotenv'
-
-// Load environment variables
-dotenv.config()
 
 // Define the configuration schema with zod
 const configSchema = z.object({

@@ -1,9 +1,9 @@
-import { useRef, useImperativeHandle, forwardRef, useState } from 'react'
+import { useImperativeHandle, forwardRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { trpc } from '@/lib/trpc'
 import { PhoneInputWrapper } from '@/components/PhoneInputWrapper'
+import { OTPInput } from '@/components/OTPInput'
 
 interface PhoneSlideProps {
   onComplete: () => void
@@ -15,10 +15,10 @@ export interface SlideRef {
 
 export const PhoneSlide = forwardRef<SlideRef, PhoneSlideProps>(({ onComplete }, ref) => {
   const { t } = useTranslation()
-  const otpRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
   const [showOtpInput, setShowOtpInput] = useState(false)
   const [phoneNumber, setPhoneNumber] = useState('')
+  const [code, setCode] = useState('')
 
   const requestOtpMutation = trpc.onboarding.requestPhoneOtp.useMutation({
     onSuccess: () => {
@@ -42,8 +42,8 @@ export const PhoneSlide = forwardRef<SlideRef, PhoneSlideProps>(({ onComplete },
       setError('')
       if (!showOtpInput && phoneNumber) {
         requestOtpMutation.mutate({ phoneNumber })
-      } else if (showOtpInput && otpRef.current) {
-        addPhoneMutation.mutate({ phoneNumber, code: otpRef.current.value })
+      } else if (showOtpInput && code) {
+        addPhoneMutation.mutate({ phoneNumber, code })
       }
     }
   }))
@@ -82,13 +82,10 @@ export const PhoneSlide = forwardRef<SlideRef, PhoneSlideProps>(({ onComplete },
             <label htmlFor="otp" className="text-sm font-medium">
               {t('onboarding_phone_otpLabel')}
             </label>
-            <Input
-              ref={otpRef}
+            <OTPInput
               id="otp"
-              type="text"
-              placeholder={t('onboarding_phone_otpPlaceholder')}
-              required
-              maxLength={4}
+              value={code}
+              onChange={setCode}
               disabled={isLoading}
             />
             <p className="text-xs text-muted-foreground">

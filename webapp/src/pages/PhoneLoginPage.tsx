@@ -3,10 +3,10 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { trpc } from '@/lib/trpc'
 import { setSession } from '@/lib/auth'
 import { PhoneInputWrapper } from '@/components/PhoneInputWrapper'
+import { OTPInput } from '@/components/OTPInput'
 
 export function PhoneLoginPage() {
   const { t } = useTranslation()
@@ -128,15 +128,11 @@ export function PhoneLoginPage() {
                 <label htmlFor="code" className="text-sm font-medium">
                   {t('auth_otp')}
                 </label>
-                <Input
+                <OTPInput
                   id="code"
-                  type="text"
-                  placeholder={t('auth_otpPlaceholder')}
                   value={code}
-                  onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                  required
-                  maxLength={4}
-                  className="text-center text-2xl tracking-widest"
+                  onChange={setCode}
+                  disabled={loginMutation.isPending}
                 />
               </div>
             </CardContent>
