@@ -1,16 +1,15 @@
-import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import { createExpressMiddleware } from '@trpc/server/adapters/express'
 import { appRouter } from './router.js'
+import { config } from './services/config.js'
 
 const app = express()
-const PORT = process.env.PORT || 3001
 
 // Enable CORS for all routes
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: config.clientUrl,
     credentials: true,
   })
 )
@@ -32,7 +31,8 @@ app.use(
 )
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
-  console.log(`📡 tRPC endpoint: http://localhost:${PORT}/trpc`)
+app.listen(config.port, () => {
+  console.log(`🚀 Server running on http://localhost:${config.port}`)
+  console.log(`📡 tRPC endpoint: http://localhost:${config.port}/trpc`)
+  console.log(`🌍 Environment: ${config.nodeEnv}`)
 })
