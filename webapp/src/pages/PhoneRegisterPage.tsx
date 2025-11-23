@@ -108,12 +108,8 @@ export function PhoneRegisterPage() {
               </Button>
               <div className="text-sm text-center text-muted-foreground">
                 Already have an account?{' '}
-                <Link to="/phone-login" className="text-primary hover:underline">
-                  Login with phone
-                </Link>
-                {' or '}
                 <Link to="/login" className="text-primary hover:underline">
-                  Login with email
+                  Login
                 </Link>
               </div>
             </CardFooter>

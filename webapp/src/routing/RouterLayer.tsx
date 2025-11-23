@@ -4,8 +4,8 @@ import { PublicLayout } from '@/components/PublicLayout'
 import { ProtectedRoute } from './guards/ProtectedRoute'
 import { HomePage } from '@/pages/HomePage'
 import { AboutPage } from '@/pages/AboutPage'
-import { LoginPage } from '@/pages/LoginPage'
-import { RegisterPage } from '@/pages/RegisterPage'
+// import { LoginPage } from '@/pages/LoginPage'
+// import { RegisterPage } from '@/pages/RegisterPage'
 import { PhoneLoginPage } from '@/pages/PhoneLoginPage'
 import { PhoneRegisterPage } from '@/pages/PhoneRegisterPage'
 import { OnboardingPage } from '@/pages/OnboardingPage'
@@ -22,10 +22,13 @@ export function RouterLayer() {
             </PublicLayout>
           }
         >
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/phone-login" element={<PhoneLoginPage />} />
-          <Route path="/phone-register" element={<PhoneRegisterPage />} />
+          {/* Phone-based auth is now primary */}
+          <Route path="/login" element={<PhoneLoginPage />} />
+          <Route path="/register" element={<PhoneRegisterPage />} />
+
+          {/* Email/password auth hidden for now */}
+          {/* <Route path="/email-login" element={<LoginPage />} /> */}
+          {/* <Route path="/email-register" element={<RegisterPage />} /> */}
         </Route>
 
         {/* Protected Routes with Layout */}

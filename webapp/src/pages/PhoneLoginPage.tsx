@@ -97,12 +97,8 @@ export function PhoneLoginPage() {
               </Button>
               <div className="text-sm text-center text-muted-foreground">
                 {t('phoneLogin_noAccount')}{' '}
-                <Link to="/phone-register" className="text-primary hover:underline">
-                  {t('phoneLogin_registerPhoneLink')}
-                </Link>
-                {' '}{t('phoneLogin_or')}{' '}
                 <Link to="/register" className="text-primary hover:underline">
-                  {t('phoneLogin_registerEmailLink')}
+                  {t('phoneLogin_registerPhoneLink')}
                 </Link>
               </div>
             </CardFooter>
