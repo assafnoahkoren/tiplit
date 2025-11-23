@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import { trpc } from '@/lib/trpc'
 import { getSessionId, clearSession } from '@/lib/auth'
 
@@ -9,6 +9,7 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const sessionId = getSessionId()
+  const location = useLocation()
 
   // If no session in localStorage, redirect immediately
   if (!sessionId) {
@@ -18,10 +19,11 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   // Verify session with backend using the me query
   const { data: user, isLoading: isLoadingAuth, error } = trpc.auth.me.useQuery()
 
-  // Check onboarding status
+  // Check onboarding status (skip if already on onboarding page)
+  const isOnOnboardingPage = location.pathname === '/onboarding'
   const { data: onboarding, isLoading: isLoadingOnboarding } = trpc.onboarding.getNeededSlides.useQuery(
     undefined,
-    { enabled: !!user } // Only run this query if user is authenticated
+    { enabled: !!user && !isOnOnboardingPage } // Only run if user is authenticated and not on onboarding page
   )
 
   // Loading state while verifying authentication with backend
@@ -42,8 +44,8 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     return <Navigate to="/login" replace />
   }
 
-  // If onboarding is not complete, redirect to onboarding
-  if (onboarding && !onboarding.isOnboardingComplete) {
+  // If onboarding is not complete, redirect to onboarding (unless already there)
+  if (!isOnOnboardingPage && onboarding && !onboarding.isOnboardingComplete) {
     return <Navigate to="/onboarding" replace />
   }
 

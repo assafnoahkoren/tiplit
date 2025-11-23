@@ -8,14 +8,14 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border">
+    <div className="min-h-dvh bg-background">
+      <header className="border-b border-border h-16">
         <div className="container mx-auto px-4 py-4 flex justify-end gap-2">
           <ThemeToggle />
           <LanguageChangeButton />
         </div>
       </header>
-      <main>{children}</main>
+      <main className="min-h-[calc(100dvh-4rem)] flex flex-col">{children}</main>
     </div>
   )
 }
