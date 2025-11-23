@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -8,6 +9,7 @@ import { setSession } from '@/lib/auth'
 import { PhoneInputWrapper } from '@/components/PhoneInputWrapper'
 
 export function PhoneRegisterPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [step, setStep] = useState<'phone' | 'otp'>('phone')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -56,11 +58,11 @@ export function PhoneRegisterPage() {
     <div className="flex flex-1 items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Create Account with Phone</CardTitle>
+          <CardTitle className="text-2xl">{t('phoneRegister_title')}</CardTitle>
           <CardDescription>
             {step === 'phone'
-              ? 'Enter your phone number to receive a verification code'
-              : 'Enter the 4-digit code sent to your phone'}
+              ? t('phoneRegister_descriptionPhone')
+              : t('phoneRegister_descriptionOtp')}
           </CardDescription>
         </CardHeader>
 
@@ -74,19 +76,19 @@ export function PhoneRegisterPage() {
               )}
               <div className="space-y-2">
                 <label htmlFor="name" className="text-sm font-medium">
-                  Name (Optional)
+                  {t('phoneRegister_name')}
                 </label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder={t('phoneRegister_namePlaceholder')}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
                 <label htmlFor="phone" className="text-sm font-medium">
-                  Phone Number
+                  {t('auth_phone')}
                 </label>
                 <PhoneInputWrapper
                   id="phone"
@@ -94,7 +96,7 @@ export function PhoneRegisterPage() {
                   onChange={(value) => setPhoneNumber(value || '')}
                 />
                 <p className="text-xs text-muted-foreground">
-                  Include country code (e.g., +1 for US)
+                  {t('auth_phoneFormat')}
                 </p>
               </div>
             </CardContent>
@@ -104,12 +106,12 @@ export function PhoneRegisterPage() {
                 type="submit"
                 disabled={requestOtpMutation.isPending}
               >
-                {requestOtpMutation.isPending ? 'Sending...' : 'Send Verification Code'}
+                {requestOtpMutation.isPending ? t('phoneRegister_sending') : t('phoneRegister_requestCode')}
               </Button>
               <div className="text-sm text-center text-muted-foreground">
-                Already have an account?{' '}
+                {t('phoneRegister_hasAccount')}{' '}
                 <Link to="/login" className="text-primary hover:underline">
-                  Login
+                  {t('phoneRegister_loginLink')}
                 </Link>
               </div>
             </CardFooter>
@@ -124,25 +126,25 @@ export function PhoneRegisterPage() {
               )}
               <div className="space-y-2">
                 <div className="text-sm text-muted-foreground">
-                  Code sent to: <span className="font-medium text-foreground">{phoneNumber}</span>
+                  {t('phoneRegister_codeSentTo')} <span className="font-medium text-foreground">{phoneNumber}</span>
                   {' '}
                   <button
                     type="button"
                     onClick={() => setStep('phone')}
                     className="text-primary hover:underline"
                   >
-                    Change
+                    {t('phoneRegister_change')}
                   </button>
                 </div>
               </div>
               <div className="space-y-2">
                 <label htmlFor="code" className="text-sm font-medium">
-                  Verification Code
+                  {t('auth_otp')}
                 </label>
                 <Input
                   id="code"
                   type="text"
-                  placeholder="1234"
+                  placeholder={t('auth_otpPlaceholder')}
                   value={code}
                   onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
                   required
@@ -157,7 +159,7 @@ export function PhoneRegisterPage() {
                 type="submit"
                 disabled={registerMutation.isPending || code.length !== 4}
               >
-                {registerMutation.isPending ? 'Verifying...' : 'Create Account'}
+                {registerMutation.isPending ? t('phoneRegister_verifying') : t('phoneRegister_createAccount')}
               </Button>
               <Button
                 variant="ghost"
@@ -166,7 +168,7 @@ export function PhoneRegisterPage() {
                 disabled={requestOtpMutation.isPending}
                 className="w-full"
               >
-                {requestOtpMutation.isPending ? 'Sending...' : 'Resend Code'}
+                {requestOtpMutation.isPending ? t('phoneRegister_sending') : t('phoneRegister_resend')}
               </Button>
             </CardFooter>
           </form>
