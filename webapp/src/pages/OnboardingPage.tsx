@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardFooter } from '@/components/ui/card'
 import { trpc } from '@/lib/trpc'
@@ -8,6 +9,7 @@ import { AvatarSlide } from './onboarding-slides/AvatarSlide'
 import { PhoneSlide } from './onboarding-slides/PhoneSlide'
 
 export function OnboardingPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
   const slideRef = useRef<SlideRef>(null)
@@ -81,14 +83,14 @@ export function OnboardingPage() {
                 type="button"
                 onClick={handleSkip}
               >
-                Skip
+                {t('common_skip')}
               </Button>
               <Button className="flex-1" type="submit">
-                Continue
+                {t('common_continue')}
               </Button>
             </div>
             <div className="text-xs text-center text-muted-foreground">
-              Step {currentSlideIndex + 1} of {slides.length}
+              {t('onboarding_stepOf', { current: currentSlideIndex + 1, total: slides.length })}
             </div>
           </CardFooter>
         </form>

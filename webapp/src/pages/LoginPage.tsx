@@ -35,9 +35,9 @@ export function LoginPage() {
       <Card className="w-full max-w-md">
         <form onSubmit={handleSubmit}>
           <CardHeader>
-            <CardTitle className="text-2xl">{t('app_title')}</CardTitle>
+            <CardTitle className="text-2xl">{t('login_title')}</CardTitle>
             <CardDescription>
-              {t('app_description')}
+              {t('login_description')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -48,12 +48,12 @@ export function LoginPage() {
             )}
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
-                {t('form_email')}
+                {t('auth_email')}
               </label>
               <Input
                 id="email"
                 type="email"
-                placeholder={t('form_emailPlaceholder')}
+                placeholder={t('auth_emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -61,12 +61,12 @@ export function LoginPage() {
             </div>
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">
-                {t('form_password')}
+                {t('auth_password')}
               </label>
               <Input
                 id="password"
                 type="password"
-                placeholder={t('form_passwordPlaceholder')}
+                placeholder={t('auth_passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -75,29 +75,23 @@ export function LoginPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-2">
-            <div className="flex gap-2 w-full">
-              <Button className="flex-1" variant="outline" type="button" asChild>
-                <Link to="/">{t('form_cancel')}</Link>
-              </Button>
-              <Button
-                className="flex-1"
-                type="submit"
-                disabled={loginMutation.isPending}
-              >
-                {loginMutation.isPending ? 'Logging in...' : t('form_submit')}
-              </Button>
-            </div>
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={loginMutation.isPending}
+            >
+              {loginMutation.isPending ? t('common_loading') : t('login_button')}
+            </Button>
             <div className="text-sm text-center text-muted-foreground space-y-1">
               <div>
-                Don't have an account?{' '}
+                {t('login_noAccount')}{' '}
                 <Link to="/register" className="text-primary hover:underline">
-                  Register
+                  {t('login_registerLink')}
                 </Link>
               </div>
               <div>
-                Or{' '}
                 <Link to="/phone-login" className="text-primary hover:underline">
-                  Login with phone
+                  {t('login_phoneLoginLink')}
                 </Link>
               </div>
             </div>

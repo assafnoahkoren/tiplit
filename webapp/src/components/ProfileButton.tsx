@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { User, LogOut } from 'lucide-react'
 import {
   DropdownMenu,
@@ -11,6 +12,7 @@ import { trpc } from '@/lib/trpc'
 import { clearSession, getSessionId } from '@/lib/auth'
 
 export function ProfileButton() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { data: avatarData } = trpc.auth.avatar.useQuery()
 
@@ -43,7 +45,7 @@ export function ProfileButton() {
           {avatarData?.avatar ? (
             <img
               src={avatarData.avatar}
-              alt="Profile"
+              alt={t('profile_menu_profile')}
               className="h-full w-full object-cover"
             />
           ) : (
@@ -56,12 +58,12 @@ export function ProfileButton() {
       <DropdownMenuContent align="start">
         <DropdownMenuItem onClick={() => navigate('/profile')}>
           <User className="h-4 w-4" />
-          Profile
+          {t('profile_menu_profile')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} disabled={logoutMutation.isPending}>
           <LogOut className="h-4 w-4" />
-          {logoutMutation.isPending ? 'Logging out...' : 'Logout'}
+          {logoutMutation.isPending ? t('profile_menu_loggingOut') : t('profile_menu_logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

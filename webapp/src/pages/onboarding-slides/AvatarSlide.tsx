@@ -1,4 +1,5 @@
 import { useRef, useImperativeHandle, forwardRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { trpc } from '@/lib/trpc'
 import { User } from 'lucide-react'
@@ -12,6 +13,7 @@ export interface SlideRef {
 }
 
 export const AvatarSlide = forwardRef<SlideRef, AvatarSlideProps>(({ onComplete }, ref) => {
+  const { t } = useTranslation()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
@@ -31,13 +33,13 @@ export const AvatarSlide = forwardRef<SlideRef, AvatarSlideProps>(({ onComplete 
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      setError('Please select an image file')
+      setError(t('onboarding_avatar_errorType'))
       return
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      setError('Image size should be less than 5MB')
+      setError(t('onboarding_avatar_errorSize'))
       return
     }
 
@@ -54,7 +56,7 @@ export const AvatarSlide = forwardRef<SlideRef, AvatarSlideProps>(({ onComplete 
       setBase64Image(base64String)
     }
     reader.onerror = () => {
-      setError('Failed to read image file')
+      setError(t('onboarding_avatar_errorRead'))
     }
     reader.readAsDataURL(file)
   }
@@ -62,7 +64,7 @@ export const AvatarSlide = forwardRef<SlideRef, AvatarSlideProps>(({ onComplete 
   useImperativeHandle(ref, () => ({
     submit: () => {
       if (!base64Image) {
-        setError('Please select an image')
+        setError(t('onboarding_avatar_errorSelect'))
         return
       }
       setError('')
@@ -73,8 +75,8 @@ export const AvatarSlide = forwardRef<SlideRef, AvatarSlideProps>(({ onComplete 
   return (
     <>
       <CardHeader>
-        <CardTitle className="text-2xl">Add a profile picture</CardTitle>
-        <CardDescription>Upload an image to personalize your profile</CardDescription>
+        <CardTitle className="text-2xl">{t('onboarding_avatar_title')}</CardTitle>
+        <CardDescription>{t('onboarding_avatar_description')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {error && (
@@ -92,7 +94,7 @@ export const AvatarSlide = forwardRef<SlideRef, AvatarSlideProps>(({ onComplete 
               {previewUrl ? (
                 <img
                   src={previewUrl}
-                  alt="Avatar preview"
+                  alt={t('onboarding_avatar_title')}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -103,10 +105,10 @@ export const AvatarSlide = forwardRef<SlideRef, AvatarSlideProps>(({ onComplete 
             </label>
             <div className="text-center space-y-1">
               <p className="text-sm text-muted-foreground">
-                Click the avatar to upload an image
+                {t('onboarding_avatar_uploadText')}
               </p>
               <p className="text-xs text-muted-foreground">
-                PNG, JPG, GIF up to 5MB
+                {t('onboarding_avatar_fileInfo')}
               </p>
             </div>
           </div>

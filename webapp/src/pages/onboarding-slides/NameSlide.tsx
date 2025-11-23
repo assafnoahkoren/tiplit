@@ -1,4 +1,5 @@
 import { useRef, useImperativeHandle, forwardRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { trpc } from '@/lib/trpc'
@@ -12,6 +13,7 @@ export interface SlideRef {
 }
 
 export const NameSlide = forwardRef<SlideRef, NameSlideProps>(({ onComplete }, ref) => {
+  const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
 
@@ -35,8 +37,8 @@ export const NameSlide = forwardRef<SlideRef, NameSlideProps>(({ onComplete }, r
   return (
     <>
       <CardHeader>
-        <CardTitle className="text-2xl">What should we call you?</CardTitle>
-        <CardDescription>Help us personalize your experience</CardDescription>
+        <CardTitle className="text-2xl">{t('onboarding_name_title')}</CardTitle>
+        <CardDescription>{t('onboarding_name_description')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {error && (
@@ -46,13 +48,13 @@ export const NameSlide = forwardRef<SlideRef, NameSlideProps>(({ onComplete }, r
         )}
         <div className="space-y-2">
           <label htmlFor="name" className="text-sm font-medium">
-            Your Name
+            {t('onboarding_name_label')}
           </label>
           <Input
             ref={inputRef}
             id="name"
             type="text"
-            placeholder="Enter your name"
+            placeholder={t('onboarding_name_placeholder')}
             required
             disabled={updateNameMutation.isPending}
           />

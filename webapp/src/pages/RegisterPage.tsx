@@ -32,7 +32,7 @@ export function RegisterPage() {
 
     // Validate passwords match
     if (password !== confirmPassword) {
-      setError('Passwords do not match')
+      setError(t('register_errorPasswordMismatch'))
       return
     }
 
@@ -44,9 +44,9 @@ export function RegisterPage() {
       <Card className="w-full max-w-md">
         <form onSubmit={handleSubmit}>
           <CardHeader>
-            <CardTitle className="text-2xl">Create Account</CardTitle>
+            <CardTitle className="text-2xl">{t('register_title')}</CardTitle>
             <CardDescription>
-              Enter your information to create a new account
+              {t('register_description')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -57,24 +57,24 @@ export function RegisterPage() {
             )}
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">
-                Name (Optional)
+                {t('register_nameOptional')}
               </label>
               <Input
                 id="name"
                 type="text"
-                placeholder="John Doe"
+                placeholder={t('auth_namePlaceholder')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
-                {t('form_email')}
+                {t('auth_email')}
               </label>
               <Input
                 id="email"
                 type="email"
-                placeholder={t('form_emailPlaceholder')}
+                placeholder={t('auth_emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -82,12 +82,12 @@ export function RegisterPage() {
             </div>
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">
-                {t('form_password')}
+                {t('auth_password')}
               </label>
               <Input
                 id="password"
                 type="password"
-                placeholder={t('form_passwordPlaceholder')}
+                placeholder={t('auth_passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -96,12 +96,12 @@ export function RegisterPage() {
             </div>
             <div className="space-y-2">
               <label htmlFor="confirmPassword" className="text-sm font-medium">
-                Confirm Password
+                {t('register_confirmPassword')}
               </label>
               <Input
                 id="confirmPassword"
                 type="password"
-                placeholder="Confirm your password"
+                placeholder={t('register_confirmPasswordPlaceholder')}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -110,29 +110,23 @@ export function RegisterPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-2">
-            <div className="flex gap-2 w-full">
-              <Button className="flex-1" variant="outline" type="button" asChild>
-                <Link to="/login">Cancel</Link>
-              </Button>
-              <Button
-                className="flex-1"
-                type="submit"
-                disabled={registerMutation.isPending}
-              >
-                {registerMutation.isPending ? 'Creating...' : 'Create Account'}
-              </Button>
-            </div>
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={registerMutation.isPending}
+            >
+              {registerMutation.isPending ? t('register_creating') : t('register_button')}
+            </Button>
             <div className="text-sm text-center text-muted-foreground space-y-1">
               <div>
-                Already have an account?{' '}
+                {t('register_hasAccount')}{' '}
                 <Link to="/login" className="text-primary hover:underline">
-                  Login
+                  {t('register_loginLink')}
                 </Link>
               </div>
               <div>
-                Or{' '}
                 <Link to="/phone-register" className="text-primary hover:underline">
-                  Register with phone
+                  {t('register_phoneRegisterLink')}
                 </Link>
               </div>
             </div>
