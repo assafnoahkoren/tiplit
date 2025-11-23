@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { router, publicProcedure } from '../../trpc.js'
 import { protectedProcedure } from '../../middleware/auth.js'
+import { prisma } from '../../lib/prisma.js'
 import {
   registerWithEmail,
   loginWithEmail,
@@ -64,6 +65,14 @@ export const authRouter = router({
       createdAt: ctx.user!.createdAt,
       updatedAt: ctx.user!.updatedAt,
     }
+  }),
+
+  avatar: protectedProcedure.query(async ({ ctx }) => {
+    const user = await prisma.user.findUnique({
+      where: { id: ctx.user!.id },
+      select: { avatar: true },
+    })
+    return { avatar: user?.avatar || null }
   }),
 
   // Phone authentication endpoints
