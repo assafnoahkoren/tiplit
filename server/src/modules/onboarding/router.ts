@@ -6,6 +6,7 @@ import { getNeededSlides } from './slides.js'
 import { requestPhoneOtp } from '../auth/service.js'
 import { verifyOtp } from '../auth/otpService.js'
 import { OTP_LENGTH } from '../auth/otpService.js'
+import { processAvatar } from '../../lib/imageProcessing.js'
 
 export const onboardingRouter = router({
   /**
@@ -46,13 +47,17 @@ export const onboardingRouter = router({
 
   /**
    * Update user's avatar
+   * Processes and optimizes the image before saving
    */
   updateAvatar: protectedProcedure
     .input(z.object({ avatar: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      // Process and optimize the avatar image
+      const optimizedAvatar = await processAvatar(input.avatar)
+
       await prisma.user.update({
         where: { id: ctx.user!.id },
-        data: { avatar: input.avatar },
+        data: { avatar: optimizedAvatar },
       })
       return { success: true }
     }),
