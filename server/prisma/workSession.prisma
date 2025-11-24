@@ -1,0 +1,22 @@
+model WorkSession {
+  id        String   @id @default(cuid())
+  userId    String
+
+  // Location (exact GPS coordinates)
+  latitude  Float
+  longitude Float
+  location  Unsupported("geometry(Point, 4326)")?
+
+  // Time tracking
+  startTime DateTime @default(now())
+  endTime   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([endTime])
+  @@index([location], type: Gist)
+}
