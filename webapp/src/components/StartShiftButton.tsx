@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Loader2, MapPin } from 'lucide-react'
 import { trpc } from '@/lib/trpc'
 
@@ -9,6 +10,7 @@ interface StartShiftButtonProps {
 }
 
 export function StartShiftButton({ onShiftStarted }: StartShiftButtonProps) {
+  const { t } = useTranslation()
   const [isGettingLocation, setIsGettingLocation] = useState(false)
   const [locationError, setLocationError] = useState<string | null>(null)
 
@@ -20,7 +22,7 @@ export function StartShiftButton({ onShiftStarted }: StartShiftButtonProps) {
     },
     onError: (error) => {
       console.error('Failed to start shift:', error)
-      setLocationError('Failed to start shift. Please try again.')
+      setLocationError(t('shift_errorStartFailed'))
       setIsGettingLocation(false)
     },
   })
@@ -30,7 +32,7 @@ export function StartShiftButton({ onShiftStarted }: StartShiftButtonProps) {
     setLocationError(null)
 
     if (!navigator.geolocation) {
-      setLocationError('Geolocation is not supported by your browser')
+      setLocationError(t('shift_errorNotSupported'))
       setIsGettingLocation(false)
       return
     }
@@ -49,7 +51,7 @@ export function StartShiftButton({ onShiftStarted }: StartShiftButtonProps) {
       },
       (error) => {
         console.error('Location error:', error)
-        setLocationError('Unable to get your location. Please enable location permissions.')
+        setLocationError(t('shift_errorLocation'))
         setIsGettingLocation(false)
       },
       {
@@ -72,12 +74,12 @@ export function StartShiftButton({ onShiftStarted }: StartShiftButtonProps) {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center space-y-2">
             <Loader2 className="h-12 w-12 animate-spin" />
-            <span className="text-sm">Getting location...</span>
+            <span className="text-sm">{t('shift_gettingLocation')}</span>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-2">
-            <MapPin className="h-12 w-12" />
-            <span className="text-2xl font-bold">Start Shift</span>
+              <MapPin className="h-12 w-12" />
+            <span className="text-2xl font-bold">{t('shift_startButton')}</span>
           </div>
         )}
       </button>
@@ -89,7 +91,7 @@ export function StartShiftButton({ onShiftStarted }: StartShiftButtonProps) {
       )}
 
       <p className="text-muted-foreground text-sm text-center">
-        Tap to start your shift and become visible to customers nearby
+        {t('shift_tapToStart')}
       </p>
     </>
   )

@@ -92,6 +92,20 @@ export const heTranslation: Translation = {
   home_logout: "התנתק",
   home_loggingOut: "מתנתק...",
 
+  // Shift Management
+  shift_startButton: "התחל משמרת",
+  shift_gettingLocation: "מאתר מיקום...",
+  shift_tapToStart: "לחץ להתחלת משמרת והופעה ללקוחות באזור",
+  shift_active: "משמרת פעילה",
+  shift_visibleToCustomers: "אתה נראה ללקוחות באזור",
+  shift_timeRemaining: "זמן שנותר",
+  shift_location: "מיקום:",
+  shift_endButton: "סיים משמרת",
+  shift_ending: "מסיים משמרת...",
+  shift_errorLocation: "לא ניתן לקבל את המיקום שלך. אנא אפשר הרשאות מיקום.",
+  shift_errorStartFailed: "התחלת המשמרת נכשלה. נסה שוב.",
+  shift_errorNotSupported: "הדפדפן שלך אינו תומך באיתור מיקום",
+
   // About Page
   about_title: "אודות",
   about_description: "למד עוד על טיפליט",

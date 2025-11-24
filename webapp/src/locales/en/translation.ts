@@ -90,6 +90,20 @@ export const enTranslation = {
   home_logout: "Logout",
   home_loggingOut: "Logging out...",
 
+  // Shift Management
+  shift_startButton: "Start Shift",
+  shift_gettingLocation: "Getting location...",
+  shift_tapToStart: "Tap to start your shift and become visible to customers nearby",
+  shift_active: "Shift Active",
+  shift_visibleToCustomers: "You're visible to customers nearby",
+  shift_timeRemaining: "Time Remaining",
+  shift_location: "Location:",
+  shift_endButton: "End Shift",
+  shift_ending: "Ending Shift...",
+  shift_errorLocation: "Unable to get your location. Please enable location permissions.",
+  shift_errorStartFailed: "Failed to start shift. Please try again.",
+  shift_errorNotSupported: "Geolocation is not supported by your browser",
+
   // About Page
   about_title: "About",
   about_description: "Learn more about Tiplit",

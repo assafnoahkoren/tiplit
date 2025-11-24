@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Loader2, MapPin, Clock } from 'lucide-react'
 import { trpc } from '@/lib/trpc'
 
 export function ActiveShiftDisplay() {
+  const { t } = useTranslation()
   // Get current active session
   const activeSessionQuery = trpc.workSession.getMyActive.useQuery(undefined, {
     refetchInterval: 30000, // Refetch every 30 seconds
@@ -49,13 +51,13 @@ export function ActiveShiftDisplay() {
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/20 text-green-500 mb-4">
           <Clock className="h-10 w-10" />
         </div>
-        <h2 className="text-2xl font-bold">Shift Active</h2>
-        <p className="text-muted-foreground">You're visible to customers nearby</p>
+        <h2 className="text-2xl font-bold">{t('shift_active')}</h2>
+        <p className="text-muted-foreground">{t('shift_visibleToCustomers')}</p>
       </div>
 
       {timeRemaining && (
         <div className="bg-muted rounded-lg p-6 text-center space-y-1">
-          <p className="text-sm text-muted-foreground">Time Remaining</p>
+          <p className="text-sm text-muted-foreground">{t('shift_timeRemaining')}</p>
           <p className="text-4xl font-bold">
             {timeRemaining.hours}h {timeRemaining.minutes}m
           </p>
@@ -65,7 +67,7 @@ export function ActiveShiftDisplay() {
       <div className="bg-muted rounded-lg p-4 space-y-2">
         <div className="flex items-center space-x-2 text-sm">
           <MapPin className="h-4 w-4 text-muted-foreground" />
-          <span className="text-muted-foreground">Location:</span>
+          <span className="text-muted-foreground">{t('shift_location')}</span>
         </div>
         <p className="text-sm">
           {activeSession.latitude.toFixed(6)}, {activeSession.longitude.toFixed(6)}
@@ -82,10 +84,10 @@ export function ActiveShiftDisplay() {
         {endShiftMutation.isPending ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Ending Shift...
+            {t('shift_ending')}
           </>
         ) : (
-          'End Shift'
+          t('shift_endButton')
         )}
       </Button>
     </div>
