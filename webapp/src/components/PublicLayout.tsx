@@ -16,7 +16,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             lightSrc="/assets/images/logos/tiplit-logo-full-light.png"
             darkSrc="/assets/images/logos/tiplit-logo-full-dark.png"
             alt="Tiplit"
-            className="h-8"
+            className="h-6"
           />
           <div className="flex gap-2">
             <ThemeToggle />
