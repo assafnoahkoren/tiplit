@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 import { trpc } from '@/lib/trpc'
-import { clearSession, getSessionId } from '@/lib/auth'
+import { clearSession } from '@/lib/auth'
 
 export function ProfileButton() {
   const { t } = useTranslation()
@@ -29,13 +29,7 @@ export function ProfileButton() {
   })
 
   const handleLogout = () => {
-    const sessionId = getSessionId()
-    if (sessionId) {
-      logoutMutation.mutate({ sessionId })
-    } else {
-      clearSession()
-      navigate('/login', { replace: true })
-    }
+    logoutMutation.mutate()
   }
 
   return (

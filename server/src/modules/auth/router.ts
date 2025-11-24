@@ -48,12 +48,10 @@ export const authRouter = router({
       }
     }),
 
-  logout: publicProcedure
-    .input(z.object({ sessionId: z.string() }))
-    .mutation(async ({ input }) => {
-      await logout(input.sessionId)
-      return { success: true }
-    }),
+  logout: protectedProcedure.mutation(async ({ ctx }) => {
+    await logout(ctx.session!.id)
+    return { success: true }
+  }),
 
   me: protectedProcedure.query(({ ctx }) => {
     // User is automatically validated and available in context!

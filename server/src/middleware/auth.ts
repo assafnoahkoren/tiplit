@@ -57,7 +57,6 @@ const authMiddleware = publicProcedure.use(async ({ ctx, next }) => {
  * Usage:
  * ```ts
  * protectedProcedure
- *   .input(z.object({ sessionId: z.string(), ... }))
  *   .query(({ ctx }) => {
  *     // ctx.user is available and typed
  *     return ctx.user

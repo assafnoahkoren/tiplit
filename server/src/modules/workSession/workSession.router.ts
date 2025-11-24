@@ -12,7 +12,7 @@ export const workSessionRouter = router({
       z.object({
         latitude: z.number().min(-90).max(90),
         longitude: z.number().min(-180).max(180),
-        endTime: z.date(),
+        endTime: z.coerce.date(),
       })
     )
     .mutation(async ({ ctx, input }) => {
