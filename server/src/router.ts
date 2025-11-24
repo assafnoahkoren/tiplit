@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { router, publicProcedure } from './trpc.js'
 import { authRouter } from './modules/auth/router.js'
 import { onboardingRouter } from './modules/onboarding/router.js'
+import { workSessionRouter } from './modules/workSession/workSession.router.js'
 
 /**
  * Main tRPC router
@@ -42,6 +43,9 @@ export const appRouter = router({
 
   // Onboarding routes
   onboarding: onboardingRouter,
+
+  // Work session routes
+  workSession: workSessionRouter,
 })
 
 // Export type router type signature,
