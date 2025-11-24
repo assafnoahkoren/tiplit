@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Loader2, MapPin, Clock } from 'lucide-react'
+import { Loader2, Clock } from 'lucide-react'
 import { trpc } from '@/lib/trpc'
+import { MapCard } from '@/components/MapCard'
 
 export function ActiveShiftDisplay() {
   const { t } = useTranslation()
+
   // Get current active session
   const activeSessionQuery = trpc.workSession.getMyActive.useQuery(undefined, {
     refetchInterval: 30000, // Refetch every 30 seconds
@@ -64,15 +66,7 @@ export function ActiveShiftDisplay() {
         </div>
       )}
 
-      <div className="bg-muted rounded-lg p-4 space-y-2">
-        <div className="flex items-center space-x-2 text-sm">
-          <MapPin className="h-4 w-4 text-muted-foreground" />
-          <span className="text-muted-foreground">{t('shift_location')}</span>
-        </div>
-        <p className="text-sm">
-          {activeSession.latitude.toFixed(6)}, {activeSession.longitude.toFixed(6)}
-        </p>
-      </div>
+      <MapCard latitude={activeSession.latitude} longitude={activeSession.longitude} />
 
       <Button
         onClick={handleEndShift}
