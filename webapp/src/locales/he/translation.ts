@@ -53,7 +53,7 @@ export const heTranslation: Translation = {
   phoneLogin_title: "התחבר",
   phoneLogin_descriptionPhone: "הזן טלפון להתחברות או הרשמה",
   phoneLogin_descriptionOtp: "הזן את הקוד בן 4 הספרות שנשלח לטלפון שלך",
-  phoneLogin_requestCode: "שלח קוד אימות",
+  phoneLogin_requestCode: "התחבר",
   phoneLogin_sending: "שולח...",
   phoneLogin_verify: "התחבר",
   phoneLogin_verifying: "מאמת...",
