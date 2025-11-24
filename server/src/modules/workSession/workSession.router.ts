@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { router } from '../../trpc.js'
+import { router, publicProcedure } from '../../trpc.js'
 import { protectedProcedure } from '../../middleware/auth.js'
 import { workSessionService } from './workSession.service.js'
 
@@ -55,9 +55,9 @@ export const workSessionRouter = router({
     }),
 
   /**
-   * Find active workers nearby
+   * Find active workers nearby (public endpoint)
    */
-  getNearby: protectedProcedure
+  getNearby: publicProcedure
     .input(
       z.object({
         latitude: z.number().min(-90).max(90),

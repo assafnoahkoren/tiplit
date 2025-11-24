@@ -24,9 +24,8 @@ export const workSessionService = {
     // End any existing active session for this user
     await prisma.$executeRaw`
       UPDATE "WorkSession"
-      SET "isActive" = false
+      SET "endTime" = NOW()
       WHERE "userId" = ${userId}
-        AND "isActive" = true
         AND "endTime" > NOW()
     `
 
