@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Loader2, MapPin } from 'lucide-react'
+import { Loader2, Briefcase } from 'lucide-react'
 import { trpc } from '@/lib/trpc'
 
 const DEFAULT_SHIFT_HOURS = 8
@@ -78,7 +78,7 @@ export function StartShiftButton({ onShiftStarted }: StartShiftButtonProps) {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-2">
-              <MapPin className="h-12 w-12" />
+            <Briefcase className="h-12 w-12" />
             <span className="text-2xl font-bold">{t('shift_startButton')}</span>
           </div>
         )}
