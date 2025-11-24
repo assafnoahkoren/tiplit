@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { trpc } from '@/lib/trpc'
 import { setSession } from '@/lib/auth'
@@ -56,20 +55,20 @@ export function PhoneRegisterPage() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl">{t('phoneRegister_title')}</CardTitle>
-          <CardDescription>
+    <div className="flex flex-1 flex-col bg-background">
+      <div className="flex-1 flex flex-col px-6 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">{t('phoneRegister_title')}</h1>
+          <p className="text-muted-foreground">
             {step === 'phone'
               ? t('phoneRegister_descriptionPhone')
               : t('phoneRegister_descriptionOtp')}
-          </CardDescription>
-        </CardHeader>
+          </p>
+        </div>
 
         {step === 'phone' ? (
-          <form onSubmit={handleRequestOtp}>
-            <CardContent className="space-y-4">
+          <form onSubmit={handleRequestOtp} className="flex-1 flex flex-col">
+            <div className="flex-1 space-y-6">
               {error && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 rounded-md">
                   {error}
@@ -100,8 +99,8 @@ export function PhoneRegisterPage() {
                   {t('auth_phoneFormat')}
                 </p>
               </div>
-            </CardContent>
-            <CardFooter className="flex flex-col gap-2">
+            </div>
+            <div className="space-y-4 pt-6">
               <Button
                 className="w-full"
                 type="submit"
@@ -115,11 +114,11 @@ export function PhoneRegisterPage() {
                   {t('phoneRegister_loginLink')}
                 </Link>
               </div>
-            </CardFooter>
+            </div>
           </form>
         ) : (
-          <form onSubmit={handleVerifyOtp}>
-            <CardContent className="space-y-4">
+          <form onSubmit={handleVerifyOtp} className="flex-1 flex flex-col">
+            <div className="flex-1 space-y-6">
               {error && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 rounded-md">
                   {error}
@@ -149,8 +148,8 @@ export function PhoneRegisterPage() {
                   disabled={registerMutation.isPending}
                 />
               </div>
-            </CardContent>
-            <CardFooter className="flex flex-col gap-2">
+            </div>
+            <div className="space-y-4 pt-6">
               <Button
                 className="w-full"
                 type="submit"
@@ -167,10 +166,10 @@ export function PhoneRegisterPage() {
               >
                 {requestOtpMutation.isPending ? t('phoneRegister_sending') : t('phoneRegister_resend')}
               </Button>
-            </CardFooter>
+            </div>
           </form>
         )}
-      </Card>
+      </div>
     </div>
   )
 }

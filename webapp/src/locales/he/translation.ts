@@ -50,8 +50,8 @@ export const heTranslation: Translation = {
   register_errorPasswordMismatch: "הסיסמאות אינן תואמות",
 
   // Phone Login Page
-  phoneLogin_title: "התחברות עם טלפון",
-  phoneLogin_descriptionPhone: "הזן את מספר הטלפון שלך כדי לקבל קוד אימות",
+  phoneLogin_title: "התחבר",
+  phoneLogin_descriptionPhone: "הזן טלפון להתחברות או הרשמה",
   phoneLogin_descriptionOtp: "הזן את הקוד בן 4 הספרות שנשלח לטלפון שלך",
   phoneLogin_requestCode: "שלח קוד אימות",
   phoneLogin_sending: "שולח...",

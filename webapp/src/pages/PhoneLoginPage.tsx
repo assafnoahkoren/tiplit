@@ -2,11 +2,11 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { trpc } from '@/lib/trpc'
 import { setSession } from '@/lib/auth'
 import { PhoneInputWrapper } from '@/components/PhoneInputWrapper'
 import { OTPInput } from '@/components/OTPInput'
+import { ThemeImage } from '@/components/ThemeImage'
 
 export function PhoneLoginPage() {
   const { t } = useTranslation()
@@ -54,40 +54,40 @@ export function PhoneLoginPage() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl">{t('phoneLogin_title')}</CardTitle>
-          <CardDescription>
+    <div className="flex flex-1 flex-col bg-background">
+      <div className="flex-1 flex flex-col px-6 py-8">
+        <div className="mb-8">
+          <ThemeImage
+            lightSrc="/assets/images/logos/tiplit-logo-full-light.png"
+            darkSrc="/assets/images/logos/tiplit-logo-full-dark.png"
+            alt="Tiplit"
+            className="h-12 mb-8"
+          />
+          <h1 className="text-3xl font-bold mb-2">{t('phoneLogin_title')}</h1>
+          <p className="text-muted-foreground">
             {step === 'phone'
               ? t('phoneLogin_descriptionPhone')
               : t('phoneLogin_descriptionOtp')}
-          </CardDescription>
-        </CardHeader>
+          </p>
+        </div>
 
         {step === 'phone' ? (
-          <form onSubmit={handleRequestOtp}>
-            <CardContent className="space-y-4">
+          <form onSubmit={handleRequestOtp} className="flex-1 flex flex-col">
+            <div className="flex-1 space-y-6">
               {error && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 rounded-md">
                   {error}
                 </div>
               )}
               <div className="space-y-2">
-                <label htmlFor="phone" className="text-sm font-medium">
-                  {t('auth_phone')}
-                </label>
                 <PhoneInputWrapper
                   id="phone"
                   value={phoneNumber}
                   onChange={(value) => setPhoneNumber(value || '')}
                 />
-                <p className="text-xs text-muted-foreground">
-                  {t('auth_phoneFormat')}
-                </p>
               </div>
-            </CardContent>
-            <CardFooter className="flex flex-col gap-2">
+            </div>
+            <div className="space-y-4 pt-6">
               <Button
                 className="w-full"
                 type="submit"
@@ -101,11 +101,11 @@ export function PhoneLoginPage() {
                   {t('phoneLogin_registerPhoneLink')}
                 </Link>
               </div>
-            </CardFooter>
+            </div>
           </form>
         ) : (
-          <form onSubmit={handleVerifyOtp}>
-            <CardContent className="space-y-4">
+          <form onSubmit={handleVerifyOtp} className="flex-1 flex flex-col">
+            <div className="flex-1 space-y-6">
               {error && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 rounded-md">
                   {error}
@@ -135,8 +135,8 @@ export function PhoneLoginPage() {
                   disabled={loginMutation.isPending}
                 />
               </div>
-            </CardContent>
-            <CardFooter className="flex flex-col gap-2">
+            </div>
+            <div className="space-y-4 pt-6">
               <Button
                 className="w-full"
                 type="submit"
@@ -153,10 +153,10 @@ export function PhoneLoginPage() {
               >
                 {requestOtpMutation.isPending ? t('phoneLogin_sending') : t('phoneLogin_resend')}
               </Button>
-            </CardFooter>
+            </div>
           </form>
         )}
-      </Card>
+      </div>
     </div>
   )
 }
