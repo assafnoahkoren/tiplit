@@ -60,7 +60,7 @@ export const heTranslation: Translation = {
   phoneLogin_resend: "שלח קוד שוב",
   phoneLogin_codeSentTo: "קוד נשלח ל:",
   phoneLogin_change: "שנה",
-  phoneLogin_noAccount: "אין לך חשבון?",
+  phoneLogin_noAccount: "אין לך חשבון? פשוט תתחבר ואוטומטית יפתח לך חשבון חדש",
   phoneLogin_registerPhoneLink: "הירשם עם טלפון",
   phoneLogin_or: "או",
   phoneLogin_registerEmailLink: "הירשם עם אימייל",

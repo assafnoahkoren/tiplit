@@ -56,7 +56,7 @@ export function PhoneRegisterPage() {
 
   return (
     <div className="flex flex-1 flex-col bg-background">
-      <div className="flex-1 flex flex-col px-6 py-8">
+      <div className="flex-1 flex flex-col justify-end px-6 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">{t('phoneRegister_title')}</h1>
           <p className="text-muted-foreground">
@@ -67,8 +67,8 @@ export function PhoneRegisterPage() {
         </div>
 
         {step === 'phone' ? (
-          <form onSubmit={handleRequestOtp} className="flex-1 flex flex-col">
-            <div className="flex-1 space-y-6">
+          <form onSubmit={handleRequestOtp} className="flex flex-col">
+            <div className="space-y-6">
               {error && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 rounded-md">
                   {error}
@@ -117,8 +117,8 @@ export function PhoneRegisterPage() {
             </div>
           </form>
         ) : (
-          <form onSubmit={handleVerifyOtp} className="flex-1 flex flex-col">
-            <div className="flex-1 space-y-6">
+          <form onSubmit={handleVerifyOtp} className="flex flex-col">
+            <div className="space-y-6">
               {error && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 rounded-md">
                   {error}

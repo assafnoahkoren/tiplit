@@ -1,12 +1,11 @@
 import { useState, type FormEvent } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { trpc } from '@/lib/trpc'
 import { setSession } from '@/lib/auth'
 import { PhoneInputWrapper } from '@/components/PhoneInputWrapper'
 import { OTPInput } from '@/components/OTPInput'
-import { ThemeImage } from '@/components/ThemeImage'
 
 export function PhoneLoginPage() {
   const { t } = useTranslation()
@@ -55,14 +54,8 @@ export function PhoneLoginPage() {
 
   return (
     <div className="flex flex-1 flex-col bg-background">
-      <div className="flex-1 flex flex-col px-6 py-8">
+      <div className="flex-1 flex flex-col justify-end px-6 py-8">
         <div className="mb-8">
-          <ThemeImage
-            lightSrc="/assets/images/logos/tiplit-logo-full-light.png"
-            darkSrc="/assets/images/logos/tiplit-logo-full-dark.png"
-            alt="Tiplit"
-            className="h-12 mb-8"
-          />
           <h1 className="text-3xl font-bold mb-2">{t('phoneLogin_title')}</h1>
           <p className="text-muted-foreground">
             {step === 'phone'
@@ -72,8 +65,8 @@ export function PhoneLoginPage() {
         </div>
 
         {step === 'phone' ? (
-          <form onSubmit={handleRequestOtp} className="flex-1 flex flex-col">
-            <div className="flex-1 space-y-6">
+          <form onSubmit={handleRequestOtp} className="flex flex-col">
+            <div className="space-y-6">
               {error && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 rounded-md">
                   {error}
@@ -97,15 +90,12 @@ export function PhoneLoginPage() {
               </Button>
               <div className="text-sm text-center text-muted-foreground">
                 {t('phoneLogin_noAccount')}{' '}
-                <Link to="/register" className="text-primary hover:underline">
-                  {t('phoneLogin_registerPhoneLink')}
-                </Link>
               </div>
             </div>
           </form>
         ) : (
-          <form onSubmit={handleVerifyOtp} className="flex-1 flex flex-col">
-            <div className="flex-1 space-y-6">
+          <form onSubmit={handleVerifyOtp} className="flex flex-col">
+            <div className="space-y-6">
               {error && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 rounded-md">
                   {error}
